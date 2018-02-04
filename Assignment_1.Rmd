@@ -1,0 +1,76 @@
+---
+title: "DATA 607 - Assignment 1"
+author: "Albert Gilharry"
+date: "February 3, 2018"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load Libraries
+```{r load-libraries}
+library(tidyverse)
+```
+
+## Load Data
+<i>The original dataset is located at https://archive.ics.uci.edu/ml/machine-learning-databases/mushroom/agaricus-lepiota.data</i>
+```{r load-data}
+mushrooms <- read.csv('https://raw.githubusercontent.com/albert-gilharry/data607-assignment1/master/agaricus-lepiota.data',header = FALSE)
+```
+
+#Rename Columns
+<i>Rename all columns for the sake of completeness.</i>
+```{r rename-columns}
+names(mushrooms) <- c("class","cap-shape","cap-surface","cap-color","bruises","odor","gill-attachment","gill-spacing","gill-size","gill-color","stalk-shape","stalk-root","stalk-surface-above-ring","stalk-surface-below-ring","stalk-color-above-ring","stalk-color-below-ring","veil-type","veil-color","ring-number","ring-type","spore-print-color","population","habitat")
+```
+
+
+## Extract Columns of Interest
+```{r select-columns}
+mushrooms <- select(mushrooms, "class", "cap-shape", "cap-color","odor","habitat")
+```
+
+## Preview Data
+```{r preview-data}
+head(mushrooms)
+```
+<i>Transformations are necessary to make more sense of this data.<i/>
+
+## Examine Data Structure
+```{r examine-structure}
+str(mushrooms)
+```
+
+## Replace Abbreviations
+<i>Careful considerations were taken to ensure the abbrevitions in the levels references the correct metadata in the dictionary.</i> 
+```{r replace-abbreviations}
+levels(mushrooms$class)
+levels(mushrooms$class) <- c("edible","poisonous")
+
+levels(mushrooms$`cap-shape`)
+levels(mushrooms$`cap-shape`) <- c("bell","conical","flat","knobbed","sunken","convex")
+
+levels(mushrooms$`cap-color`)
+levels(mushrooms$`cap-color`) <- c("buff","cinnamon","red","gray","brown","pink","green","purple","white","yellow")
+
+levels(mushrooms$odor)
+levels(mushrooms$odor) <- c("almond","creosote","foul","anise","musty","none","pungent","spicy","fishy")
+
+levels(mushrooms$habitat)
+levels(mushrooms$habitat) <- c("woods","grasses","leaves","meadows","paths","urban","waste")
+```
+
+## Transformed Data
+```{r pressure}
+head(mushrooms)
+```
+<i>Users now have a better initial understanding of the data.</i>
+
+## Summarize Data
+```{r summarize-data}
+summary(mushrooms)
+```
